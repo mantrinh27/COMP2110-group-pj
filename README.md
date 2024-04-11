@@ -8,3 +8,6 @@ I will work towards implementing a Calendar Widget
 
 Liam Cook - 
 I will be doing the Task Timer Widget
+
+Thanh Man Trinh -
+I will be working on Mood Widget
