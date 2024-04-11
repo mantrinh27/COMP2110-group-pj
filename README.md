@@ -1,4 +1,4 @@
 # COMP2110 Task Manager 2024
 
-As part of your assignment submission, write notes about your implementation
-in this file.
+Liam Ramsay - 
+I will be Extending the task card for my participation in the group project
