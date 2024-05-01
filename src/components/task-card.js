@@ -1,5 +1,5 @@
-import {LitElement, html, css} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
-import {TaskModel} from '../models.js';
+import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
+import { TaskModel } from '../models.js';
 import './edit-task.js';
 
 /**
@@ -10,7 +10,8 @@ import './edit-task.js';
 class TaskCard extends LitElement {
   static properties = {
     id: 0,
-    _task: {state: true},
+    _task: { state: true },
+    _hovered: { state: true }
   };
 
   static styles = css`
@@ -19,10 +20,14 @@ class TaskCard extends LitElement {
         width: 200px;
         background-color: #ffffcc;
         color: #003000;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+      }
+
+    :host(:hover) {
+      transform: scale(1.05);
+      background-color: red; /* Change the color on hover */
     }
-    :host input {
-        width: 5em;
-    }
+
     h2 {
       background-color: red;
       font-size: large;
