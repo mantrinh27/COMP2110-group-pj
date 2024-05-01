@@ -1,5 +1,5 @@
-import {LitElement, html, css} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
-import {TaskModel} from '../models.js';
+import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
+import { TaskModel } from '../models.js';
 import './task-card.js';
 
 /**
@@ -9,29 +9,32 @@ import './task-card.js';
 class TaskBoard extends LitElement {
   static properties = {
     category: {},
-    _tasks: {state: true},
-    _message: {state: true},
+    _tasks: { state: true },
+    _message: { state: true },
   };
 
   static styles = css`
     :host {
-        display: block;
-        background-color: #d0cb65;
-        color: #ffcc33;
-        border: 1px solid red;
-        padding: 10px;
-        margin: 10px;
-        width: 250px;
-        height: 80dvh;
+      display: flex;
+      flex-direction: column;
+      background-color: #d0cb65;
+      color: #ffcc33;
+      border: 1px solid red;
+      padding: 10px;
+      margin: 10px;
+      width: 100%; /* Adjust width as needed */
+      max-width: 300px; /* Adjust max-width as needed */
     }
-    :host input {
-        width: 5em;
+
+    .card-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px; /* Adjust gap between cards */
+      justify-content: space-between; /* Center tasks within each column */
     }
-    .task-actions {
-      display: block;
-    }
-    .task-actions li {
-      display: inline-block;
+
+    .task-card {
+      width: calc(50% - 5px); /* Adjust width of each column */
     }
   `;
 
@@ -54,16 +57,15 @@ class TaskBoard extends LitElement {
       return html`<h3>${this.category}</h3> <p>${this._message}</p>`;
     } else if (this._tasks) {
       return html`
-          <div>
-            <h3>${this.category}</h3>
-
-            <div class="card-list">
-              ${this._tasks.map((task) => {
-                  return html`<task-card id=${task.id}></task-card>`;
-                })}
-            </div>
+        <div>
+          <h3>${this.category}</h3>
+          <div class="card-list">
+            ${this._tasks.map(
+              (task) => html`<task-card id=${task.id}></task-card>`
+            )}
           </div>
-        `;
+        </div>
+      `;
     } else {
       return html`<h3>${this.category}</h3><p>Loading....</p>`;
     }
