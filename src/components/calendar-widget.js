@@ -27,6 +27,26 @@ class CalendarWidget extends LitElement {
         background-color: azure;
         border: 1px solid red;
     }
+
+    .calendar-month {
+      color: red;
+      margin: 15px;
+    }
+
+    .calendar-weekdays {
+      color: blue;
+      font-size: 12px;
+      margin: 0px 10px;
+
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      font-weight: 600;
+      color: rgb(104, 104, 104);
+    }
+
+    
+
+    
   `;
 
   constructor() {
@@ -37,8 +57,18 @@ class CalendarWidget extends LitElement {
 
   render() {
     return html`
-        <h3>${"Calendar"}</h3>
-        <h4>${months[this.date.getMonth()]}
+        <h3 class="calendar-month">${months[this.date.getMonth()]}</h3>
+        <div class="calendar-body">
+          <div class="calendar-weekdays">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+          </div>
+        </div
     `;
   }
 }
