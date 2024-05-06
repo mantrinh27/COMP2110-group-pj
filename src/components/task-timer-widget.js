@@ -45,6 +45,8 @@ class TaskTimerWidget extends LitElement {
   }
 
 
+
+
   startStopwatch() {
     this.increment = true;
     this.interval = setInterval(() => {
@@ -66,7 +68,6 @@ class TaskTimerWidget extends LitElement {
   
   stopStopwatch() {
     this.increment = false;
-    // Stop incrementing by clearing the interval
     clearInterval(this.interval);
   }
   
@@ -75,12 +76,9 @@ class TaskTimerWidget extends LitElement {
     this.minute = 0;
     this.second = 0;
     this.increment = false;
-    // Stop incrementing by clearing the interval
     clearInterval(this.interval);
     this.requestUpdate();
   }
-
-  
 }
 
 
