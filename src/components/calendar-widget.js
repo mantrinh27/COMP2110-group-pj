@@ -24,7 +24,7 @@ class CalendarWidget extends LitElement {
         display: block;
         width: 250px;
         height: 250px;
-        background-color: azure;
+        background-color: white;
         border: 1px solid red;
     }
 
@@ -50,16 +50,22 @@ class CalendarWidget extends LitElement {
       font-size: 10px;
       margin: 8px;
 
-      border: 1px solid;
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       grid-template-rows: repeat(5, 1fr);
     }
 
     .calendar-days > div {
-      border: 1px solid;
       gap: 5px;
-      justify-self: left;
+      margin: 5px;
+      padding: 5px;
+    }
+
+    .current-day {
+      color: white;
+      background: red;
+      border: none;
+      border-radius: 5px;
     }
   `;
 
@@ -78,7 +84,11 @@ class CalendarWidget extends LitElement {
 
   render() {
     const getFebDays = () => {
-      return this.isLeapYear ? 29 : 28;
+      if (this.isLeapYear) {
+        return 29;
+      } else {
+        return 28;
+      }
     };
 
     let numDaysInMonth = [
@@ -98,29 +108,19 @@ class CalendarWidget extends LitElement {
 
     let generatedDays = (month) => {
       let firstDay = new Date(2024, month);
+      let daysOutput = [];
 
-      let daysOutput;
+      // console.log(numDaysInMonth[this.month]);
+      // console.log(numDaysInMonth[this.month] + 1 + firstDay.getDay());
       for (let i = 0; i < numDaysInMonth[this.month] + firstDay.getDay(); i++) {
-        if (i < firstDay.getDay()) {
-          continue;
+        if (i >= firstDay.getDay()) {
+          daysOutput.push(i - firstDay.getDay() + 1);
+        } else {
+          daysOutput.push(" ");
         }
-
-        daysOutput += `${i - firstDay.getDay()}`;
       }
 
-      // NOTE USE MAP FUNCTION, CHECK WEEK 7
-      // return html`${daysOutput}`;
-      return html`
-      <div>1</div>
-      <div>2</div>
-      <div>3</div>
-      <div>4</div>
-      <div>5</div>
-      <div>6</div>
-      <div>7</div>
-      <div>8</div>
-      <div>9</div>
-      `;
+      return daysOutput;
     }
 
     return html`
@@ -136,7 +136,12 @@ class CalendarWidget extends LitElement {
             <div>Sat</div>
           </div>
           <div class="calendar-days">
-            ${generatedDays(this.month)}
+            ${generatedDays(this.month).map(day => {
+              if (day == this.date.getDate() && this.month == this.date.getMonth()) {
+                return html`<div class="current-day">${day}</div>`;
+              }
+              return html`<div>${day}</div>`;
+            })}
           </div>
         </div
     `;
