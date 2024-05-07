@@ -24,6 +24,7 @@ class TaskBoard extends LitElement {
       margin: 10px;
       width: 100%; /* Adjust width as needed */
       max-width: 300px; /* Adjust max-width as needed */
+      overflow-y: auto; /* Add overflow-y to make the content scrollable */
     }
 
     .card-list {
@@ -47,9 +48,23 @@ class TaskBoard extends LitElement {
   }
 
   _loadData() {
-    // get the up to date task list
+    // get the up to date task list based on the category
     this._tasks = TaskModel.getTasks(this.category);
     this.render();
+  }
+
+  updated(changedProperties) {
+    super.updated(changedProperties);
+    this._adjustHeight();
+  }
+
+  _adjustHeight() {
+    const taskCards = this.shadowRoot.querySelectorAll('.task-card');
+    if (taskCards.length > 0) {
+      const lastTask = taskCards[taskCards.length - 1];
+      const lastTaskRect = lastTask.getBoundingClientRect();
+      this.style.height = `${lastTaskRect.bottom + 10}px`; // Add some extra space
+    }
   }
 
   render() {
