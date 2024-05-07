@@ -28,9 +28,37 @@ class CalendarWidget extends LitElement {
         border: 1px solid red;
     }
 
-    .calendar-month {
+    .calendar-header {
+      display: grid;
+      grid-template-columns: 1fr 3fr 1fr;
+    }
+
+    .calendar-month-year {
       color: red;
-      margin: 15px;
+      margin: 10px;
+      margin-top: 15px;
+
+      font-size: 16px;
+    }
+
+    .month-change {
+      cursor: pointer;
+      font-family: monospace;
+      font-size: 14px;
+
+      border: none;
+      border-radius: 10px;
+      background-color: ash;
+
+      user-select: none; /* Used to remove user highlighting on buttons, for aesthetics */
+    }
+
+    .month-change:first-child {
+      margin: 15px 0 10px 10px;
+    } 
+
+    .month-change:last-child {
+      margin: 15px 10px 10px 0;
     }
 
     .calendar-weekdays {
@@ -38,7 +66,7 @@ class CalendarWidget extends LitElement {
       font-family: Comic Sans MS, Comic Sans, cursive;
 
       font-size: 12px;
-      margin: 10px;
+      margin: 0 10px;
 
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -48,7 +76,7 @@ class CalendarWidget extends LitElement {
 
     .calendar-days {
       font-size: 10px;
-      margin: 8px;
+      margin: 0 8px;
 
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -61,13 +89,16 @@ class CalendarWidget extends LitElement {
       padding: 5px;
     }
 
-    .current-day {
-      color: white;
-      background: red;
-      border: none;
-      border-radius: 5px;
+    #current-day {
+      margin: 3px;
+      color: black;
+      
+      border: 2px solid black;
+      border-radius: 20px;
     }
   `;
+
+  static URL = "https://comp2110-portal-server.fly.dev"
 
   constructor() {
     super();
@@ -80,7 +111,42 @@ class CalendarWidget extends LitElement {
     } else {
       this.isLeapYear = false;
     }
+
+    this.fetchTasks();
   }
+
+  fetchTasks() {
+    fetch(CalendarWidget.URL + "/tasks")
+      .then(response => response.json())
+      .then(data => { 
+          this.tasks = data;
+      });
+  }
+
+  lastMonth() {
+    this.month -= 1;
+    if (this.month < 0) {
+      this.year -= 1;
+      this.month = 11;
+    }
+    // console.log("Last Month");
+    // console.log(this.month + " " + this.year);
+    this.requestUpdate();
+  }
+
+  nextMonth() {
+    this.month += 1;
+    if (this.month > 11) {
+      this.year += 1;
+      this.month = 0;
+    }
+    // console.log("Next Month");
+    // console.log(this.month + " " + this.year);
+    this.fetchTasks();
+    this.requestUpdate();
+  }
+
+  
 
   render() {
     const getFebDays = () => {
@@ -124,7 +190,11 @@ class CalendarWidget extends LitElement {
     }
 
     return html`
-        <h3 class="calendar-month">${months[this.month]}</h3>
+        <div class="calendar-header">
+        <button class="month-change" @click="${this.lastMonth}"><</button>
+          <h4 class="calendar-month-year">${months[this.month] + " " + this.year}</h4>
+          <button class="month-change" @click="${this.nextMonth}">></button>
+        </div>
         <div class="calendar-body">
           <div class="calendar-weekdays">
             <div>Sun</div>
@@ -137,8 +207,8 @@ class CalendarWidget extends LitElement {
           </div>
           <div class="calendar-days">
             ${generatedDays(this.month).map(day => {
-              if (day == this.date.getDate() && this.month == this.date.getMonth()) {
-                return html`<div class="current-day">${day}</div>`;
+              if (day == this.date.getDate() && this.month == this.date.getMonth() && this.year == this.date.getFullYear()) {
+                return html`<div id="current-day">${day}</div>`;
               }
               return html`<div>${day}</div>`;
             })}
