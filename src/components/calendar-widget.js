@@ -77,7 +77,8 @@ class CalendarWidget extends LitElement {
     }
 
     .calendar-days {
-      font-size: 10px;
+      font-size: 11px;
+      font-weight: bold;
       margin: 0 8px;
 
       display: grid;
@@ -87,16 +88,38 @@ class CalendarWidget extends LitElement {
 
     .calendar-days > div {
       gap: 5px;
-      margin: 5px;
+      margin: 1px;
       padding: 5px;
     }
 
-    #current-day {
-      margin: 3px;
+    .calendar-days > div > p {
+      margin: 0px;
+      padding: 4px;
+      border-radius: 20px;
+    }
+
+    .calendar-days > div.urgent-task-day > p {
+      background-color: red;
+      color: white;
+    }
+
+    .calendar-days > div.incomplete-task-day > p {
+      background-color: orange;
+      color: black;
+    }
+
+    .calendar-days > div.done-task-day > p {
+      background-color: limegreen;
       color: black;
       
+    }
+
+    #current-day {
+      margin: 1px;
+      padding: 4px;
+      
       border: 2px solid black;
-      border-radius: 20px;
+      // border-radius: 20px;
     }
 
     .loading {
@@ -158,6 +181,19 @@ class CalendarWidget extends LitElement {
     this.fetchTasks();
   }
 
+  // getTasksOnDay(testDate) {
+  //   let tasksOnDay = [];
+  //   for (let i = 0; i < this._tasks.length; i++) {
+  //     let taskDate = new Date(this._tasks[i].due);
+  //     // console.log(taskDate);
+  //     // console.log(this.date.getDate() + " " + taskDate.getDate());
+  //     // console.log(this.month + " " + taskDate.getMonth());
+  //     if (testDate == taskDate.getDate() && this.month == taskDate.getMonth()) {
+  //       tasksOnDay.push(this._tasks[i]);
+  //     }
+  //   }
+  // }
+
   
 
   render() {
@@ -186,7 +222,7 @@ class CalendarWidget extends LitElement {
         31,
       ];
 
-      let generatedDays = (month) => {
+      let generateDays = (month) => {
         let firstDay = new Date(2024, month);
         let daysOutput = [];
 
@@ -220,11 +256,65 @@ class CalendarWidget extends LitElement {
               <div>Sat</div>
             </div>
             <div class="calendar-days">
-              ${generatedDays(this.month).map(day => {
-                if (day == this.date.getDate() && this.month == this.date.getMonth() && this.year == this.date.getFullYear()) {
-                  return html`<div id="current-day">${day}</div>`;
+              ${generateDays(this.month).map(day => {
+                let tasksOnDay = [];
+                for (let i = 0; i < this._tasks.length; i++) {
+                  let taskDate = new Date(this._tasks[i].due);
+                  if (day == taskDate.getDate() && this.month == taskDate.getMonth()) {
+                    tasksOnDay.push(this._tasks[i]);
+                  }
                 }
-                return html`<div>${day}</div>`;
+                // console.log(tasksOnDay);
+
+                if (day == this.date.getDate() && this.month == this.date.getMonth() && this.year == this.date.getFullYear()) {
+                  // if (tasksOnDay.length != 0) {
+                  //   return html`<div class="urgent-task-day" id="current-day"><p>${day}</p></div>`;
+                  // }
+                  // return html`<div id="current-day"><p>${day}</p></div>`;
+                  let urgency;
+                  for (let i = 0; i < tasksOnDay.length; i++) {
+                    if (tasksOnDay[i].category != "Done") {
+                      urgency = "URGENT";
+                    } else {
+                      urgency = "DONE";
+                    }
+                  }
+
+                  if (urgency == undefined) {
+                    return html`<div id="current-day"><p>${day}</p></div>`;
+                  } else {
+                    if (urgency == "URGENT") {
+                      return html`<div class="urgent-task-day" id="current-day"><p>${day}</p></div>`;
+                    } else {
+                      return html`<div class="done-task-day" id="current-day"><p>${day}</p></div>`;
+                    }
+                  }
+                }
+
+                let urgency;
+                for (let i = 0; i < tasksOnDay.length; i++) {
+                  let taskDate = new Date(tasksOnDay[i].due);
+                  if ((taskDate.getDate() <= this.date.getDate() || taskDate.getMonth() < this.date.getMonth()) && tasksOnDay[i].category != "Done") {
+                    urgency = "URGENT";
+                    break;
+                  } else if (tasksOnDay[i].category != "Done") {
+                    urgency = "INCOMPLETE";
+                  } else if (tasksOnDay[i].category == "Done" && urgency != "INCOMPLETE") {
+                    urgency = "DONE";
+                  }
+                }
+
+                if (urgency == undefined) {
+                  return html`<div><p>${day}</p></div>`;
+                } else {
+                  if (urgency == "URGENT") {
+                    return html`<div class="urgent-task-day"><p>${day}</p></div>`;
+                  } else if (urgency == "INCOMPLETE") {
+                    return html`<div class="incomplete-task-day"><p>${day}</p></div>`;
+                  } else if (urgency == "DONE") {
+                    return html`<div class="done-task-day"><p>${day}</p></div>`;
+                  }
+                }
               })}
             </div>
           </div
