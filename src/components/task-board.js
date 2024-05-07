@@ -23,33 +23,35 @@ class TaskBoard extends LitElement {
       padding: 10px;
       margin: 10px;
       width: 100%; /* Adjust width as needed */
-      max-width: 300px; /* Adjust max-width as needed */
+      max-width: 400px; /* Adjust max-width as needed */
+      overflow-y: auto; /* Add overflow-y to make the content scrollable */
     }
 
     .card-list {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px; /* Adjust gap between cards */
-      justify-content: space-between; /* Center tasks within each column */
+      flex-direction: column;
+      gap: 15px; /* Adjust gap between tasks */
+      align-items: center; /* Center tasks horizontally */
     }
 
     .task-card {
-      width: calc(50% - 5px); /* Adjust width of each column */
+      width: 80%; /* Adjust width to fill the parent container */
+      max-width: 250px; /* Limit the maximum width of each card */
+      margin: auto; /* Ensure the card is centered horizontally */
     }
   `;
 
   constructor() {
     super();
-    // set an event listener to refresh the display when the data is ready
+    // Set an event listener to refresh the display when the data is ready
     window.addEventListener('tasks', () => {
       this._loadData();
     });
   }
 
   _loadData() {
-    // get the up to date task list
+    // Get the up-to-date task list based on the category
     this._tasks = TaskModel.getTasks(this.category);
-    this.render();
   }
 
   render() {
@@ -61,13 +63,13 @@ class TaskBoard extends LitElement {
           <h3>${this.category}</h3>
           <div class="card-list">
             ${this._tasks.map(
-              (task) => html`<task-card id=${task.id}></task-card>`
+              (task) => html`<task-card id=${task.id} class="task-card"></task-card>`
             )}
           </div>
         </div>
       `;
     } else {
-      return html`<h3>${this.category}</h3><p>Loading....</p>`;
+      return html`<h3>${this.category}</h3><p>Loading...</p>`;
     }
   }
 }
