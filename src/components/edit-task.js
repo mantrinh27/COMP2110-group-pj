@@ -1,50 +1,46 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
 import { TaskModel } from '../models.js';
 
-/** EditTask <edit-task id=N>
- * Task edit for a given task id (N). Displays as a button that, when clicked,
- * shows a modal dialog containing a form to update the task properties.
- * Submitting the form updates the task via the TaskModel.
+/**
+ * EditTask
+ * Allows editing of a task's details via a popup form
  */
 class EditTask extends LitElement {
   static properties = {
-    id: 0,
-    _task: { state: true },
+    id: 0, // Task ID to edit
+    _task: { state: true } // Task object fetched dynamically
   };
 
-  // Simplified CSS styles for the form
   static styles = css`
-    /* Basic dialog styles */
     dialog {
-      width: 90%;
-      max-width: 400px; /* Limit to a max width */
-      background: #ffffff; /* White background */
-      padding: 1rem; /* Simple padding */
-      border-radius: 8px; /* Slightly rounded corners */
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Light shadow */
-      border: none; /* Remove dialog border */
+      width: 95%; /* Expand the dialog width */
+      max-width: 600px; /* Increase the maximum dialog width */
+      background: #ffffff;
+      padding: 1.5rem; /* Increase padding */
+      border-radius: 10px; /* Rounded corners */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     form {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem; /* Add spacing between inputs */
+      gap: 1rem; /* Larger gap between inputs */
     }
 
     input,
     textarea {
-      width: 100%;
-      padding: 0.5rem;
-      border: 1px solid #ccc; /* Light gray border */
-      border-radius: 4px; /* Rounded corners */
-      font-size: 1rem; /* Standard text size */
+      width: 100%; /* Expand inputs to the full width */
+      padding: 0.75rem; /* Increase padding for inputs */
+      border: 1px solid #ccc;
+      border-radius: 6px; /* Slightly rounded corners */
+      font-size: 1.1rem; /* Increase font size */
     }
 
     button,
     input[type="submit"] {
-      padding: 0.5rem 1rem;
+      padding: 0.75rem 1.5rem;
       border: none;
-      border-radius: 4px;
+      border-radius: 5px;
       cursor: pointer;
     }
 
@@ -59,62 +55,51 @@ class EditTask extends LitElement {
     }
   `;
 
+  // Fetch the task details when the component is connected
   connectedCallback() {
     super.connectedCallback();
     this._task = TaskModel.getTask(this.id);
   }
 
-  /**
-   * _submit - Private method to handle form submission. Constructs
-   * a new task from the form values and then updates the task via TaskModel.
-   * @param {Object} event - the click event
-   */
+  // Handle form submission to update the task
   _submit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const due = new Date(formData.get('due'));
-    const newTask = {
+    const updatedTask = {
       summary: formData.get('summary'),
       text: formData.get('text'),
       priority: formData.get('priority'),
-      due: due.valueOf(),
+      due: new Date(formData.get('due')).valueOf()
     };
-    TaskModel.updateTask(this.id, newTask);
+    TaskModel.updateTask(this.id, updatedTask);
     this._hideModal();
   }
 
-  /**
-   * Click handler to show the editor dialog
-   */
+  // Show the edit modal
   _showModal() {
-    const dialog = this.renderRoot.querySelector('#edit-task-dialog');
-    dialog.showModal();
+    this.renderRoot.querySelector('#edit-task-dialog').showModal();
   }
 
-  /**
-   * Click handler to close the editor dialog
-   */
+  // Hide the edit modal
   _hideModal() {
-    const dialog = this.renderRoot.querySelector('#edit-task-dialog');
-    dialog.close();
+    this.renderRoot.querySelector('#edit-task-dialog').close();
   }
 
+  // Render the form in a modal dialog
   render() {
-    // Convert due date from milliseconds to an ISO string
-    const isoString = new Date(this._task.due).toISOString();
-    const due = isoString.substring(0, isoString.indexOf('T') + 6);
+    const dueDate = new Date(this._task.due).toISOString().substring(0, 16);
     return html`
       <button @click=${this._showModal}>Edit</button>
       <dialog id="edit-task-dialog">
         <form @submit="${this._submit}">
           <label for="summary">Summary</label>
           <input name="summary" value=${this._task.summary}>
-          <label for="text">Text</label>
-          <textarea name="text">${this._task.text}</textarea>
+          <label for="text">Description</label>
+          <textarea name="text" rows="5">${this._task.text}</textarea>
           <label for="priority">Priority</label>
           <input name="priority" type="number" value=${this._task.priority}>
-          <label for="due">Due</label>
-          <input name="due" type="datetime-local" value=${due}>
+          <label for="due">Due Date</label>
+          <input name="due" type="datetime-local" value=${dueDate}>
           <div>
             <button @click="${this._hideModal}">Cancel</button>
             <input value='Update' type="submit">

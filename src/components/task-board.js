@@ -3,14 +3,13 @@ import { TaskModel } from '../models.js';
 import './task-card.js';
 
 /**
- * TaskBoard <task-board category="XXX">
- * Display tasks in the given category
+ * TaskBoard
+ * Displays tasks grouped under a specified category
  */
 class TaskBoard extends LitElement {
   static properties = {
-    category: {},
-    _tasks: { state: true },
-    _message: { state: true },
+    category: {}, // Category of tasks to display
+    _tasks: { state: true }
   };
 
   static styles = css`
@@ -18,53 +17,44 @@ class TaskBoard extends LitElement {
       display: flex;
       flex-direction: column;
       background-color: #d0cb65;
-      color: #ffcc33;
-      border: 1px solid red;
       padding: 10px;
-      margin: 10px;
-      width: 100%; /* Adjust width as needed */
-      max-width: 400px; /* Adjust max-width as needed */
-      overflow-y: auto; /* Add overflow-y to make the content scrollable */
+      width: 100%;
+      max-width: 300px;
+      overflow-y: auto;
     }
 
     .card-list {
       display: flex;
       flex-direction: column;
-      gap: 15px; /* Adjust gap between tasks */
-      align-items: center; /* Center tasks horizontally */
+      gap: 15px;
+      align-items: center;
     }
 
     .task-card {
-      width: 80%; /* Adjust width to fill the parent container */
-      max-width: 250px; /* Limit the maximum width of each card */
-      margin: auto; /* Ensure the card is centered horizontally */
+      width: 80%;
+      max-width: 250px;
+      margin: auto;
     }
   `;
 
   constructor() {
     super();
-    // Set an event listener to refresh the display when the data is ready
-    window.addEventListener('tasks', () => {
-      this._loadData();
-    });
+    window.addEventListener('tasks', () => this._loadData());
   }
 
+  // Load the tasks for this category
   _loadData() {
-    // Get the up-to-date task list based on the category
     this._tasks = TaskModel.getTasks(this.category);
   }
 
+  // Render the task board with the appropriate tasks
   render() {
-    if (this._message) {
-      return html`<h3>${this.category}</h3> <p>${this._message}</p>`;
-    } else if (this._tasks) {
+    if (this._tasks) {
       return html`
         <div>
           <h3>${this.category}</h3>
           <div class="card-list">
-            ${this._tasks.map(
-              (task) => html`<task-card id=${task.id} class="task-card"></task-card>`
-            )}
+            ${this._tasks.map((task) => html`<task-card id=${task.id} class="task-card"></task-card>`)}
           </div>
         </div>
       `;
