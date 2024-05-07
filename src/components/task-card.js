@@ -1,12 +1,8 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
 import { TaskModel } from '../models.js';
 import './edit-task.js';
+import './popup.js'; // Import the TaskPopup component
 
-/**
- * TaskCard <task-card id=N>
- * Display the details of the task with id N in a 'card'
- * as part of the task board
- */
 class TaskCard extends LitElement {
   static properties = {
     id: 0,
@@ -48,6 +44,11 @@ class TaskCard extends LitElement {
     this._task = TaskModel.getTask(this.id);
   }
 
+  _showPopup() {
+    const popup = this.renderRoot.querySelector('task-popup');
+    popup._showModal();
+  }
+
   render() {
     if (this._task) {
       const ts = new Date(parseInt(this._task.timestamp));
@@ -61,6 +62,11 @@ class TaskCard extends LitElement {
         <p class='task-priority'>${this._task.priority}</p>
 
         <edit-task id=${this.id}></edit-task>
+        
+        <!-- Button for view details -->
+        <button @click=${this._showPopup}>View Details</button>
+        
+        <task-popup id=${this.id}></task-popup>
       </div>
       `;
     } else {
