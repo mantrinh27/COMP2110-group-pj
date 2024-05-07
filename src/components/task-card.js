@@ -3,10 +3,14 @@ import { TaskModel } from '../models.js';
 import './edit-task.js';
 import './popup.js';
 
+/**
+ * TaskCard
+ * Display an individual task with summary details
+ */
 class TaskCard extends LitElement {
   static properties = {
-    id: 0,
-    _task: { state: true }
+    id: 0, // Task ID
+    _task: { state: true } // Task object fetched dynamically
   };
 
   static styles = css`
@@ -16,11 +20,14 @@ class TaskCard extends LitElement {
       background-color: #ffffcc;
       color: #003000;
       transition: transform 0.2s ease, background-color 0.2s ease;
+      border: 2px solid transparent; /* Initial border state */
+      border-radius: 8px; /* Rounded corners for a neater look */
     }
 
     :host(:hover) {
-      transform: scale(1.05);
-      background-color: red; /* Change color on hover */
+      transform: scale(1.05); /* Scale up slightly on hover */
+      background-color: #ffe680; /* Change color on hover */
+      border-color: red; /* Highlight border on hover */
     }
 
     h2 {
@@ -36,40 +43,35 @@ class TaskCard extends LitElement {
     }
   `;
 
+  // Fetches task details when the component is connected
   connectedCallback() {
     super.connectedCallback();
-    this._loadData();
-    // Listen for changes to refresh the task data
-    window.addEventListener('tasks', () => {
-      this._loadData();
-    });
+    this._loadTask();
   }
 
-  _loadData() {
+  // Load the task data based on the ID
+  _loadTask() {
     this._task = TaskModel.getTask(this.id);
   }
 
+  // Trigger the global task popup to show more task details
   _showGlobalPopup() {
-    // Dispatch an event to show the global popup
     const event = new CustomEvent('show-task-popup', {
-      detail: { taskId: this.id },
-      bubbles: true,
-      composed: true
+      detail: { taskId: this.id }
     });
     window.dispatchEvent(event);
   }
 
+  // Render the task card with its details
   render() {
     if (this._task) {
-      const due = new Date(parseInt(this._task.due)); // Only get the due date
+      const dueDate = new Date(parseInt(this._task.due)).toDateString();
       return html`
         <div>
           <h2>${this._task.summary}</h2>
-          <p class='task-due'>Due Date: ${due.toDateString()}</p> <!-- Show only the due date -->
-          <p class='task-content'> Description: ${this._task.text}</p>
-          <p class='task-priority'>Priority: ${this._task.priority}</p>
-
-          <!-- Container for buttons -->
+          <p>Due Date: ${dueDate}</p>
+          <p>Description: ${this._task.text}</p>
+          <p>Priority: ${this._task.priority}</p>
           <div class="button-container">
             <edit-task id=${this.id}></edit-task>
             <button @click=${this._showGlobalPopup}>View Details</button>
