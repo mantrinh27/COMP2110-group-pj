@@ -79,30 +79,42 @@ class TaskTimerWidget extends LitElement {
         alert("Task timer finished");
         this.increment = false;
         clearInterval(this.interval);
+        this.requestUpdate();
       }
+      if(this.second ==-1) {
+        this.second = 0;
+        this.requestUpdate();
+
+      }
+      else{
       if(this.second < 0) {
         this.second = 59;
+        this.requestUpdate();
       }
       if(this.minute < 0) {
         this.minute = 59;
+        this.requestUpdate();
       }
       if(this.hour < 0) {
         this.hour = 59;
+        this.requestUpdate();
       }
 
       if(this.second == 0) {
         if(this.minute != 0) {
           this.minute--;
           this.second = 59;
+          this.requestUpdate();
         }
       }
       if(this.minute == 0) {
         if(this.hour != 0) {
           this.hour--;
           this.minute = 59;
+          this.requestUpdate();
         }
       }
-
+      }
     }, 1000);
   }
 
