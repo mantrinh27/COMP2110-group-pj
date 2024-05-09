@@ -25,9 +25,9 @@ class CalendarWidget extends LitElement {
     :host {
         display: block;
         width: 250px;
-        height: 250px;
+        height: 285px;
         background-color: white;
-        border: 1px solid red;
+        border: 1px solid black;
     }
 
     .calendar-header {
@@ -36,7 +36,6 @@ class CalendarWidget extends LitElement {
     }
 
     .calendar-month-year {
-      color: red;
       margin: 10px;
       margin-top: 15px;
 
@@ -83,7 +82,7 @@ class CalendarWidget extends LitElement {
 
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      grid-template-rows: repeat(5, 1fr);
+      grid-template-rows: repeat(6, 1fr);
     }
 
     .calendar-days > div {
@@ -116,7 +115,7 @@ class CalendarWidget extends LitElement {
 
     #current-day {
       margin: 1px;
-      padding: 4px;
+      padding: 3px;
       
       border: 2px solid black;
       // border-radius: 20px;
@@ -128,6 +127,37 @@ class CalendarWidget extends LitElement {
       align-items: center;
       height: 250px;
       margin: 0px;
+    }
+
+    .calendar-legend {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      align-items: center;
+
+      font-size: 8px;
+      margin: 0px 10px;
+    }
+
+    .calendar-legend > div {
+      display: flex;
+      height: 20px;
+      align-items: center;
+      justify-content: center;
+
+      margin: 2px 2px;
+    }
+
+    #legend-done {
+      background-color: limegreen;
+    }
+
+    #legend-todo {
+      background-color: orange;
+    }
+
+    #legend-urgent {
+      background-color: red;
+      color: white;
     }
   `;
 
@@ -228,8 +258,8 @@ class CalendarWidget extends LitElement {
 
         // console.log(numDaysInMonth[this.month]);
         // console.log(numDaysInMonth[this.month] + 1 + firstDay.getDay());
-        for (let i = 0; i < numDaysInMonth[this.month] + firstDay.getDay(); i++) {
-          if (i >= firstDay.getDay()) {
+        for (let i = 0; i < numDaysInMonth[this.month] + firstDay.getDay() + 6; i++) {
+          if (i >= firstDay.getDay() && i < numDaysInMonth[this.month] + firstDay.getDay()) {
             daysOutput.push(i - firstDay.getDay() + 1);
           } else {
             daysOutput.push(" ");
@@ -294,13 +324,19 @@ class CalendarWidget extends LitElement {
                 let urgency;
                 for (let i = 0; i < tasksOnDay.length; i++) {
                   let taskDate = new Date(tasksOnDay[i].due);
-                  if ((taskDate.getDate() <= this.date.getDate() || taskDate.getMonth() < this.date.getMonth()) && tasksOnDay[i].category != "Done") {
-                    urgency = "URGENT";
-                    break;
-                  } else if (tasksOnDay[i].category != "Done") {
-                    urgency = "INCOMPLETE";
-                  } else if (tasksOnDay[i].category == "Done" && urgency != "INCOMPLETE") {
-                    urgency = "DONE";
+                  if (taskDate.getFullYear() == this.year) {
+                    if ((taskDate.getDate() <= this.date.getDate() || taskDate.getMonth() < this.date.getMonth()) && tasksOnDay[i].category != "Done") {
+                      if (taskDate.getFullYear() <= this.date.getFullYear()) {
+                        urgency = "URGENT";
+                        break;
+                      } else {
+                        urgency = "INCOMPLETE";
+                      }
+                    } else if (tasksOnDay[i].category != "Done") {
+                      urgency = "INCOMPLETE";
+                    } else if (tasksOnDay[i].category == "Done" && urgency != "INCOMPLETE") {
+                      urgency = "DONE";
+                    } 
                   }
                 }
 
@@ -316,6 +352,11 @@ class CalendarWidget extends LitElement {
                   }
                 }
               })}
+            </div>
+            <div class="calendar-legend">
+              <div id="legend-done">All Tasks Done</div>
+              <div id="legend-todo">Tasks To Do</div>
+              <div id="legend-urgent">URGENTLY Outstanding Tasks!</div>
             </div>
           </div
       `;
