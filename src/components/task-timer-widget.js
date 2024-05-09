@@ -19,6 +19,11 @@ class TaskTimerWidget extends LitElement {
         background-color: white;
         border: 1px solid black;
     }
+    #hour-input, #minute-input, #second-input {
+      width: 15%;  /* Each input takes roughly 33% of the parent container */
+      display: inline-block;
+    }
+
   `;
 
   constructor() {
@@ -36,42 +41,65 @@ class TaskTimerWidget extends LitElement {
       <h3>${this.header}</h3>
       <p3>Stopwatch</p3>
       <p id="stopwatch-current-time">${this.hour}h, ${this.minute}m, ${this.second}s</p>
+      <form>
       <div id="stopwatch-controls">
-            <button id="stopwatch-start" @click="${this.startStopwatch}">Start</button>
-            <button id="stopwatch-stop" @click="${this.stopStopwatch}">Stop</button>
-            <button id="stopwatch-reset" @click="${this.resetStopwatch}">Reset</button>
+        <input id="hour-input" type="number" min="0" max="23" placeholder="HH">
+        <input id="minute-input" type="number" min="0" max="59" placeholder="MM">
+        <input id="second-input" type="number" min="0" max="59" placeholder="SS">
+        <br>
+        <button id="stopwatch-start" @click="${this.startStopwatch}">Start</button>
+        <button id="stopwatch-stop" @click="${this.stopStopwatch}">Stop</button>
+        <button id="stopwatch-reset" @click="${this.resetStopwatch}">Reset</button>
       </div>
+    </form>
     `;
   }
 
 
 
 
-  startStopwatch() {
+  startStopwatch(event) {
+    event.preventDefault();
+    const hourInput = this.shadowRoot.querySelector('#hour-input');
+    this.hour = Number(hourInput.value) || 0;
+  
+    const minuteInput = this.shadowRoot.querySelector('#minute-input');
+    this.minute = Number(minuteInput.value) || 0;
+  
+    const secondInput = this.shadowRoot.querySelector('#second-input');
+    this.second = Number(secondInput.value) || 0;
+  
     this.increment = true;
     this.interval = setInterval(() => {
-      if (this.increment) {
-        this.second++;
+      if (this.increment && (this.hour != 0 || this.minute != 0 || this.second != 0)) {
+        this.second--;
         this.requestUpdate();
       }
-      if(this.second >=60) {
-        this.minute+=1;
-        this.second = 0;
+      if(this.second == 0) {
+        if(this.minute != 0) {
+          this.minute--;
+          this.second = 59;
+        }
       }
-      if(this.minute >= 60) {
-        this.hour+=1;
-        this.minute = 0;
+  
+      if(this.second == 0 && this.minute == 0 && this.hour == 0) {
+        alert("Task timer finished");
+        this.increment = false;
+        clearInterval(this.interval);
       }
-      
+  
     }, 1000);
   }
+
   
-  stopStopwatch() {
+  stopStopwatch(event) {
+    event.preventDefault();
     this.increment = false;
     clearInterval(this.interval);
   }
   
-  resetStopwatch() {
+  resetStopwatch(event) {
+    event.preventDefault();
     this.hour = 0;
     this.minute = 0;
     this.second = 0;
