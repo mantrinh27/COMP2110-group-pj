@@ -17,7 +17,85 @@ class LoginWidget extends LitElement {
   static styles = css`
     :host {
         display: block;
-    }`;
+    }
+
+    button {
+      height: 50px;
+      width: 70px;
+
+      background-color: #023E8A;
+      color: white;
+      border: none;
+      border-radius: 10px;
+    }
+
+    button:hover {
+      background-color: #b4d5fe;
+      color: black;
+      cursor: pointer;
+    }
+
+    button:active {
+      background-color: #012450;
+
+      color:white;
+      transition-duration: 0.1s;
+    }
+    
+    p {
+      padding: 0 20px;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 100px 150px 75px;
+      grid-template-rows: 2;
+
+      height: 50px;
+    }
+
+    #login-username, #login-password {
+      margin: 0;
+      padding: 0px;
+      grid-column: 1;
+      
+      display: flex;
+      justify-content: right;
+    }
+
+    input {
+      margin-left: 5px;
+    }
+
+    input[type="submit"] {
+      grid-column: 3;
+      grid-row: 1/3;
+      
+      background-color: #023E8A;
+      color: white;
+      border: none;
+      border-radius: 10px;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #b4d5fe;
+      color: black;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:active {
+      background-color: #012450;
+
+      color:white;
+      transition-duration: 0.1s;
+    }
+
+    #error-message {
+      background-color: red;
+      border-radius: 10px;
+    }
+
+    `;
 
   constructor() {
     super();
@@ -57,10 +135,10 @@ class LoginWidget extends LitElement {
               <button @click=${this._logout}>Logout</button>`;
     }
     return html`
-      <p>${this._errorMessage}</p>
+      <p id="error-message">${this._errorMessage}</p>
       <form @submit=${this._submitForm}>
-          Username: <input name="username">
-          Password: <input type="password" name="password">
+          <p id="login-username">Username:</p><input name="username">
+          <p id="login-password">Password:</p><input type="password" name="password">
           <input type='submit' value='Login'>
       </form>`;
   }
