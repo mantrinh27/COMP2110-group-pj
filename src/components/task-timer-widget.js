@@ -49,7 +49,7 @@ class TaskTimerWidget extends LitElement {
         <br>
         <button id="stopwatch-start" @click="${this.startStopwatch}">Start</button>
         <button id="stopwatch-stop" @click="${this.stopStopwatch}">Stop</button>
-        <button id="stopwatch-reset" @click="${this.resetStopwatch}">Reset</button>
+        <button id="stopwatch-reset" @click="${this.resetStopwatch}">Clear</button>
       </div>
     </form>
     `;
@@ -71,23 +71,38 @@ class TaskTimerWidget extends LitElement {
   
     this.increment = true;
     this.interval = setInterval(() => {
-      if (this.increment && (this.hour != 0 || this.minute != 0 || this.second != 0)) {
+      if (this.increment) {
         this.second--;
         this.requestUpdate();
       }
+      if(this.second <= 0 && this.minute <= 0 && this.hour <= 0) {
+        alert("Task timer finished");
+        this.increment = false;
+        clearInterval(this.interval);
+      }
+      if(this.second < 0) {
+        this.second = 59;
+      }
+      if(this.minute < 0) {
+        this.minute = 59;
+      }
+      if(this.hour < 0) {
+        this.hour = 59;
+      }
+
       if(this.second == 0) {
         if(this.minute != 0) {
           this.minute--;
           this.second = 59;
         }
       }
-  
-      if(this.second == 0 && this.minute == 0 && this.hour == 0) {
-        alert("Task timer finished");
-        this.increment = false;
-        clearInterval(this.interval);
+      if(this.minute == 0) {
+        if(this.hour != 0) {
+          this.hour--;
+          this.minute = 59;
+        }
       }
-  
+
     }, 1000);
   }
 
