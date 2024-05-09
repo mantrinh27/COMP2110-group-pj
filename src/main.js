@@ -27,6 +27,35 @@ class Comp2110TaskManager extends LitElement {
       background-color: var(--comp2110-portal-background-color);
     }
 
+    header {
+      background-color: #0361d7;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+
+      margin: 20px;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      color: white;
+      min-width: 850px;
+    }
+
+    header > h1 {
+      display: flex;
+      justify-content: left;
+      align-items: center;
+
+      margin-left: 20px;
+    }
+
+    header > login-widget {
+      display: flex;      
+      justify-content: right;
+      align-items: center;
+
+      margin-right: 20px;
+    }
+
+
     main {
       display: flex;
       justify-content: space-between;
