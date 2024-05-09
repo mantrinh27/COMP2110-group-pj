@@ -39,7 +39,7 @@ class TaskTimerWidget extends LitElement {
   render() {
     return html`
       <h3>${this.header}</h3>
-      <p3>Stopwatch</p3>
+      <p5>Time left</p5>
       <p id="stopwatch-current-time">${this.hour}h, ${this.minute}m, ${this.second}s</p>
       <form>
       <div id="stopwatch-controls">
