@@ -36,7 +36,7 @@ class Comp2110TaskManager extends LitElement {
       border-top-left-radius: 20px;
       border-top-right-radius: 20px;
       color: white;
-      min-width: 850px;
+      min-width: 1060px;
     }
 
     header > h1 {
@@ -64,11 +64,18 @@ class Comp2110TaskManager extends LitElement {
       grid-template-columns: 6fr 1fr;
 
       margin: 0 20px;
+      padding: 30px;
+      background-color: rgb(245,249,250);
+      min-width: 1000px;
       
     }
 
     widget-container > * {
       margin: 0 0 20px 30px;
+    }
+
+    mood-widget, calendar-widget, task-timer-widget {
+      border-radius: 15px;
     }
 
     .app-footer {
@@ -81,6 +88,8 @@ class Comp2110TaskManager extends LitElement {
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
       color: white;
+
+      min-width: 1020px;
     }
 
     .app-footer a {

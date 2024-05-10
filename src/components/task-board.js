@@ -20,6 +20,9 @@ class TaskBoard extends LitElement {
       width: 100%;
       overflow-y: auto;
       padding-bottom: 20px;
+
+      min-width: 175px;
+      border-radius: 25px;
     }
 
     .card-list {
