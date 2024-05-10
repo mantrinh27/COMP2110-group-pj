@@ -15,6 +15,8 @@ class AdWidget extends LitElement {
         width: 250px;
         height: 250px;
         background-color: azure;
+
+        border: 1px solid black;
     }
     :host p {
       position: relative;

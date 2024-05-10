@@ -11,7 +11,7 @@ class TaskManager extends LitElement {
     .task-manager {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 15px;
+      // gap: 15px;
     }
   `;
 
