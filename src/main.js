@@ -32,7 +32,7 @@ class Comp2110TaskManager extends LitElement {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
 
-      margin: 20px;
+      margin: 20px 20px 0 20px;
       border-top-left-radius: 20px;
       border-top-right-radius: 20px;
       color: white;
@@ -57,17 +57,36 @@ class Comp2110TaskManager extends LitElement {
 
 
     main {
-      display: flex;
-      justify-content: space-between;
+      // display: flex;
+      // justify-content: space-between;
+
+      display: grid;
+      grid-template-columns: 6fr 1fr;
+
+      margin: 0 20px;
+      
     }
 
     .app-footer {
       font-size: calc(12px + 0.5vmin);
       align-items: center;
+
+      background-color: #0361d7;
+      margin: 0 20px 20px 20px;
+      padding: 20px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      color: white;
     }
 
     .app-footer a {
       margin-left: 5px;
+
+      color: #b4d5fe;
+    }
+
+    .app-footer a:active {
+      color: black;
     }
   `;
 
