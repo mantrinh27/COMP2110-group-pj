@@ -18,11 +18,35 @@ class TaskTimerWidget extends LitElement {
         height: 250px;
         background-color: white;
         border: 1px solid black;
+        background-color: #d9e8f3; /* Pastel blue background */
     }
     #hour-input, #minute-input, #second-input {
       width: 15%;  /* Each input takes roughly 33% of the parent container */
-      display: inline-block;
+      background-color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
     }
+
+    #stopwatch-controls {
+      background-color: #1c3d79; /* Dark blue like the header */
+      color: #fff;
+      text-align: center;
+      font-weight: bold;
+      padding: 0.25rem 0;
+    }
+
+    #stopwatch-start, #stopwatch-stop, #stopwatch-reset {
+      background-color: #1c3d79; /* Same blue as the header */
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+  }
 
   `;
 
