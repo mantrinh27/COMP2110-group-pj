@@ -37,7 +37,7 @@ class EditTask extends LitElement {
     }
 
     button,
-    input[type="submit"] {
+    input[type="submit"] { 
       padding: 0.75rem 1.5rem;
       border: none;
       border-radius: 5px;
@@ -62,7 +62,7 @@ class EditTask extends LitElement {
   }
 
   // Handle form submission to update the task
-  _submit(event) {
+  _submit(event) { 
     event.preventDefault();
     const formData = new FormData(event.target);
     const updatedTask = {

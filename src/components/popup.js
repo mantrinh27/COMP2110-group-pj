@@ -18,7 +18,7 @@ class TaskPopup extends LitElement {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: rgba(255, 255, 255, 0.95);
+      background-color: rgba(255, 255, 255, 0.95); /* 4th value is opacity for the pop up function*/
       width: 60%;
       max-width: 800px;
       padding: 2rem;
