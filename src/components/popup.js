@@ -18,12 +18,13 @@ class TaskPopup extends LitElement {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: rgba(255, 255, 255, 0.95); /* 4th value is opacity for the pop up function*/
+      background-color: #d3d3d3; /* Light grey color for pop-ups */
       width: 60%;
       max-width: 800px;
       padding: 2rem;
       border-radius: 10px;
       overflow-y: auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     .modal.open {
@@ -35,6 +36,20 @@ class TaskPopup extends LitElement {
       float: right;
       font-size: 1.5rem;
       color: #000;
+    }
+
+    .edit-button, .view-details-button {
+      background-color: #1c3d79; /* Same blue as the header */
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .edit-button:hover, .view-details-button:hover {
+      background-color: #27579d; /* A shade lighter for hover */
     }
   `;
 

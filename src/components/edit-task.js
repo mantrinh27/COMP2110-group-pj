@@ -15,7 +15,7 @@ class EditTask extends LitElement {
     dialog {
       width: 95%; /* Expand the dialog width */
       max-width: 600px; /* Increase the maximum dialog width */
-      background: #ffffff;
+      background-color: #d3d3d3; /* Light grey for edit task modal */
       padding: 1.5rem; /* Increase padding */
       border-radius: 10px; /* Rounded corners */
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -36,17 +36,25 @@ class EditTask extends LitElement {
       font-size: 1.1rem; /* Increase font size */
     }
 
-    button,
-    input[type="submit"] { 
+    .edit-button, input[type="submit"] {
       padding: 0.75rem 1.5rem;
       border: none;
       border-radius: 5px;
       cursor: pointer;
     }
 
-    button {
-      background-color: #f44336; /* Red for cancel */
+    .edit-button {
+      background-color: #1c3d79; /* Same blue as the header */
       color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .edit-button:hover {
+      background-color: #27579d; /* A shade lighter for hover */
     }
 
     input[type="submit"] {
@@ -89,7 +97,7 @@ class EditTask extends LitElement {
   render() {
     const dueDate = new Date(this._task.due).toISOString().substring(0, 16);
     return html`
-      <button @click=${this._showModal}>Edit</button>
+      <button class="edit-button" @click=${this._showModal}>Edit</button>
       <dialog id="edit-task-dialog">
         <form @submit="${this._submit}">
           <label for="summary">Summary</label>
@@ -101,7 +109,7 @@ class EditTask extends LitElement {
           <label for="due">Due Date</label>
           <input name="due" type="datetime-local" value=${dueDate}>
           <div>
-            <button @click="${this._hideModal}">Cancel</button>
+            <button class="edit-button" @click="${this._hideModal}">Cancel</button>
             <input value='Update' type="submit">
           </div>
         </form>
