@@ -68,8 +68,9 @@ class TaskTimerWidget extends LitElement {
   
     const secondInput = this.shadowRoot.querySelector('#second-input');
     this.second = Number(secondInput.value) || 0;
-  
-    this.increment = true;
+
+    if(this.increment != true) {
+      this.increment = true;
     this.interval = setInterval(() => {
       if (this.increment) {
         this.second--;
@@ -116,6 +117,7 @@ class TaskTimerWidget extends LitElement {
       }
       }
     }, 1000);
+    }
   }
 
   
