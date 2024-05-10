@@ -87,6 +87,11 @@ class TaskTimerWidget extends LitElement {
         this.requestUpdate();
 
       }
+      if(this.hour == 1 && this.minute == 0 && this.second == 0) {
+        this.hour = 0;
+        this.minute = 59;
+        this.second = 59;
+      }
 
       if(this.hour == 0 && this.minute == 59 && this.second == 0) {
         this.second = 59;
