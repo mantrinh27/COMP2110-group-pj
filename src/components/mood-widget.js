@@ -1,56 +1,81 @@
 import {LitElement, html, css} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
-import { TaskModel } from '../models.js';
-
 class MoodWidget extends LitElement {
-  static get styles() {
-    return css`
+  static properties = {
+    selectedMood: { type: String }
+  };
+
+  static styles = css`
     :host {
       display: block;
-      width: 250px;
-      height: 285px;
-      background-color: white;
+      font-size: 30px;
       border: 1px solid black;
-  }
-    .title {
-      font-weight: bold;
-      margin-bottom: 5px;
+      background-color: white;
     }
-    `;
-  }
+
+    .emojis {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .emoji {
+      cursor: pointer;
+      border-radius: 60%;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 20px;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #1c3d79 /*Change the color to dark blue same as header*/
+    }
+
+    .selected-mood {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 18px;
+      padding: 10px;
+    }
+
+    .selected {
+      border: 2px solid #023E8A;
+    }
+  `;
 
   constructor() {
     super();
-    this.icon = '😊'; // Default to happy icon
-    this.updateIcon(); // Update the icon based on tasks' status
+    this.selectedMood = ''; // Default mood
   }
 
-  updateIcon() {
-    const today = new Date();
-    const tasks = TaskModel.getTasksForDay(today);
-    if (tasks.length === 0) {
-      this.icon = '😊'; // No tasks for today, show happy icon
+  selectMood(mood) {
+    if (this.selectedMood === mood) {
+      // Deselect the emoji if it is already selected
+      this.selectedMood = '';
     } else {
-      const closestTask = tasks.reduce((prev, current) => {
-        return Math.abs(new Date(prev.due) - today) < Math.abs(new Date(current.due) - today) ? prev : current;
-      });
-      const dueDate = new Date(closestTask.due);
-      if (dueDate < today) {
-        this.icon = '😭'; // Task is overdue, show upset icon
-      } else {
-        this.icon = '😢'; // Task is due today, show worried icon
-      }
+      this.selectedMood = mood;
     }
-    this.requestUpdate();
   }
 
   render() {
+    let moodText = '';
+    if (this.selectedMood) {
+      moodText = `Today you are feeling ${this.selectedMood}`;
+    }
     return html`
-        <div class="title">Mood Widget</div>
-        ${this.icon === '😊' ? html`<span class="${this.icon === '😊' ? 'happy' : 'upset'}">${this.icon}</span> Yay, there is no task due for today!` : html`<span class="${this.icon === '😊' ? 'happy' : 'upset'}">${this.icon}</span>`}
+      <div class="frame">
+        <div class="title"><b>Select your mood for today</b></div>
+        <div class="emojis">
+          <span class="emoji ${this.selectedMood === 'happy' ? 'selected' : ''}" id="happy" @click="${() => this.selectMood('happy')}">😊</span>
+          <span class="emoji ${this.selectedMood === 'calm' ? 'selected' : ''}" id="calm" @click="${() => this.selectMood('calm')}">😌</span>
+          <span class="emoji ${this.selectedMood === 'sad' ? 'selected' : ''}" id="sad" @click="${() => this.selectMood('sad')}">😢</span>
+          <span class="emoji ${this.selectedMood === 'low-energy' ? 'selected' : ''}" id="low-energy" @click="${() => this.selectMood('low-energy')}">😔</span>
+          <span class="emoji ${this.selectedMood === 'upset' ? 'selected' : ''}" id="upset" @click="${() => this.selectMood('upset')}">😡</span>
+        </div>
+        <div class="selected-mood">${moodText}</div>
       </div>
     `;
   }
 }
 
 customElements.define('mood-widget', MoodWidget);
-
