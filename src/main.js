@@ -67,6 +67,10 @@ class Comp2110TaskManager extends LitElement {
       
     }
 
+    widget-container > * {
+      margin: 0 0 20px 30px;
+    }
+
     .app-footer {
       font-size: calc(12px + 0.5vmin);
       align-items: center;
