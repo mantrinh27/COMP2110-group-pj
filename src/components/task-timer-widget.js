@@ -18,7 +18,7 @@ class TaskTimerWidget extends LitElement {
         height: 250px;
         background-color: white;
         border: 1px solid black;
-        background-color: #d9e8f3; /* Pastel blue background */
+        background-color: white;
     }
     #hour-input, #minute-input, #second-input {
       width: 15%;  /* Each input takes roughly 33% of the parent container */
