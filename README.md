@@ -37,5 +37,7 @@ Task Timer Widget
 - The widget includes a clear button which is used to clear the time remaining.
 
 Mood Widget
-- 
+- This mood widger let users select their mood for today.
+- The widget includes 5 emotional icons: happy, calm, sad, low-energy, angry that user may choose based on their current mood.
+
 
