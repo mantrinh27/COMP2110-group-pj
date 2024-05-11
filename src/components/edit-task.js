@@ -15,7 +15,7 @@ class EditTask extends LitElement {
     dialog {
       width: 95%; /* Expand the dialog width */
       max-width: 600px; /* Increase the maximum dialog width */
-      background-color: #d3d3d3; /* Light grey for edit task modal */
+      background-color: #e6f7ff; /* Light blue for edit task modal */
       padding: 1.5rem; /* Increase padding */
       border-radius: 10px; /* Rounded corners */
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);

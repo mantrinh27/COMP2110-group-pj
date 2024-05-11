@@ -18,7 +18,7 @@ class TaskPopup extends LitElement {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: #d3d3d3; /* Light grey color for pop-ups */
+      background-color: #e6f7ff; /* Light blue color for pop-ups */
       width: 60%;
       max-width: 800px;
       padding: 2rem;
@@ -117,9 +117,7 @@ class TaskPopup extends LitElement {
           <p>Priority: ${this._task.priority}</p>
         </div>
       `;
-    } else {
-      return html`<div>Loading...</div>`;
-    }
+    } 
   }
 }
 

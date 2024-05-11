@@ -18,7 +18,7 @@ class TaskCard extends LitElement {
       display: block;
       width: 200px;
       background-color: #ffffcc;
-      color: #003000;
+      color: black;
       transition: transform 0.2s ease, background-color 0.2s ease;
       border: 2px solid transparent; /* Initial border state */
       border-radius: 8px; /* Rounded corners for a neater look */
@@ -31,7 +31,7 @@ class TaskCard extends LitElement {
     }
 
     h2 {
-      background-color: red;
+      background-color: #0361d7;
       font-size: large;
       font-variant: small-caps;
     }

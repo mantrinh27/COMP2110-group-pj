@@ -36,7 +36,7 @@ class TaskBoard extends LitElement {
       width: 80%;
       max-width: 250px;
       margin: auto;
-      background-color: #d3d3d3; /* Light grey */
+      background-color: #e6f7ff; /* Light grey */
       border-radius: 8px;
       transition: background-color 0.2s ease;
       border: 2px solid #1c3d79; /* Blue like the header */
