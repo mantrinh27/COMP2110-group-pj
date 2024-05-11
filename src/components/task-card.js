@@ -41,6 +41,9 @@ class TaskCard extends LitElement {
       display: flex;
       justify-content: space-between;
     }
+    #summaryid  {
+      color: white;
+    }
   `;
 
   // Fetches task details when the component is connected
@@ -68,7 +71,7 @@ class TaskCard extends LitElement {
       const dueDate = new Date(parseInt(this._task.due)).toDateString();
       return html`
         <div>
-          <h2>${this._task.summary}</h2>
+          <h2 id = "summaryid">${this._task.summary}</h2>
           <p>Due Date: ${dueDate}</p>
           <p>Description: ${this._task.text}</p>
           <p>Priority: ${this._task.priority}</p>
