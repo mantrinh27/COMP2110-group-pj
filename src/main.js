@@ -126,7 +126,7 @@ class Comp2110TaskManager extends LitElement {
       </main>
 
       <p class="app-footer">
-        🚽 Made with love by
+        🚽 Made with love by Liam Ramsay, Nicholas Cavanaugh, Liam Cook, and Thanh Man Trinh - Students of Macquarie University
         <a
           target="_blank"
           rel="noopener noreferrer"
