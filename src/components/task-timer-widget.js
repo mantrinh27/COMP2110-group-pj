@@ -49,7 +49,6 @@ class TaskTimerWidget extends LitElement {
   }
 
   `;
-
   constructor() {
     super();
     this.header = 'Task Timer Widget';
@@ -84,6 +83,7 @@ class TaskTimerWidget extends LitElement {
 
   startStopwatch(event) {
     event.preventDefault();
+    // Passing the input into the variables
     const hourInput = this.shadowRoot.querySelector('#hour-input');
     this.hour = Number(hourInput.value) || 0;
   
