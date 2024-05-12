@@ -17,7 +17,7 @@ I will be working on Mood Widget
 
 COMP2110 Assignment 2 - Group 43
 
-Components:
+## Components:
 
 Task card - Liam Ramsay
 - Each task is split into 3 columns: ToDo, Doing, Done.
@@ -26,7 +26,12 @@ Task card - Liam Ramsay
 - Each task has it's own "View Details" button which shows an expanded view of all the task contenents.
 
 Calendar Widget - Nicholas Cavanaugh
-- 
+- This widget consists of a full functioning calendar that dsiplays the current day, when tasks are due as well as the tasks completion status
+- Initially displays today's date and month, and there are two buttons to view the past and future months.
+- The tasks completion status is shown via a coloured circle on that day. The colors are as follows:
+    - Green = All tasks done for that day
+    - Amber/Orange = At least 1 task still to be completed for that day
+    - Red = At least 1 task is due on "Today's" date, or the due date has been passed (i.e. the task is overdue)
 
 Task Timer Widget - Liam Cook
 - This is a widget that allows users to countdown from a time set by the user.

@@ -302,14 +302,12 @@ class CalendarWidget extends LitElement {
                   tasksOnDay.push(this._tasks[i]);
                 }
               }
-              // console.log(tasksOnDay);
 
+              // Checks for tasks on today's date 
               if (day == this.date.getDate() && this.month == this.date.getMonth() && this.year == this.date.getFullYear()) {
-                // if (tasksOnDay.length != 0) {
-                //   return html`<div class="urgent-task-day" id="current-day"><p>${day}</p></div>`;
-                // }
-                // return html`<div id="current-day"><p>${day}</p></div>`;
                 let urgency;
+                
+                // On today's date, if there are any tasks to be done, its URGENT
                 for (let i = 0; i < tasksOnDay.length; i++) {
                   if (tasksOnDay[i].category != "Done") {
                     urgency = "URGENT";
@@ -332,6 +330,8 @@ class CalendarWidget extends LitElement {
               let urgency;
               for (let i = 0; i < tasksOnDay.length; i++) {
                 let taskDate = new Date(tasksOnDay[i].due);
+
+                // Checks if the tasks are overdue, todo, or done and sets urgency
                 if (taskDate.getFullYear() == this.year) {
                   if ((taskDate.getDate() <= this.date.getDate() && taskDate.getMonth() <= this.date.getMonth()) && tasksOnDay[i].category != "Done") {
                     if (taskDate.getFullYear() <= this.date.getFullYear()) {
