@@ -104,6 +104,7 @@ class TaskTimerWidget extends LitElement {
       this.hour+= Math.floor(60/this.minute);
     }
 
+    // Countdown minutes
     if(this.increment != true) {
       this.increment = true;
     this.interval = setInterval(() => {
