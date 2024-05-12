@@ -93,6 +93,17 @@ class TaskTimerWidget extends LitElement {
     const secondInput = this.shadowRoot.querySelector('#second-input');
     this.second = Number(secondInput.value) || 0;
 
+    // Convert seconds and minutes to time values <= 60
+    if(this.second > 60) {
+      this.second = this.second%60;
+      this.minute+= Math.floor(60/this.second);
+    }
+
+    if(this.minute > 60) {
+      this.minute = this.minute%60;
+      this.hour+= Math.floor(60/this.minute);
+    }
+
     if(this.increment != true) {
       this.increment = true;
     this.interval = setInterval(() => {
