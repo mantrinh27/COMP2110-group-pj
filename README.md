@@ -25,6 +25,21 @@ Task card - Liam Ramsay
 - Each task has it's own "Edit" button which allows the user to edit each content of the task and update it.
 - Each task has it's own "View Details" button which shows an expanded view of all the task contenents.
 
+Functions and how they work:
+
+Task-board - 
+Dynamic Data Loading: Utilizes the TaskModel.getTasks() method to fetch tasks asynchronously, updating the component state when new data is received.
+
+Popup - 
+Event Handling: Listens for a custom event (show-task-popup) to display task details. 
+
+Edit-task - 
+Form Data Handling: Uses FormData to collect input values from the form, demonstrating a straightforward way to handle forms in JavaScript.
+Dynamic UI Updates: Updates the task model and closes the modal on form submission, ensuring the UI reflects the changes made immediately.
+
+
+
+
 Calendar Widget - Nicholas Cavanaugh
 - This widget consists of a full functioning calendar that dsiplays the current day, when tasks are due as well as the tasks completion status
 - Initially displays today's date and month, and there are two buttons to view the past and future months.
